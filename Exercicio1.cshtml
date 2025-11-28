@@ -1,0 +1,248 @@
+﻿@{
+    ViewData["Title"] = "Nossos Serviços Natalinos";
+}
+
+<div class="container">
+    <div class="text-center mb-5">
+        <h1 class="display-4 fw-bold" style="color: #c41e3a;">🎄 Nossos Serviços Natalinos</h1>
+        <p class="lead" style="color: #2d5016;">Soluções mágicas para tornar seu Natal inesquecível</p>
+    </div>
+
+    <!-- Filtro por Categoria -->
+    <div class="row mb-4">
+        <div class="col-md-6 mx-auto">
+            <label for="categoriaServico" class="form-label fw-bold" style="color: #c41e3a;">Filtrar por categoria:</label>
+            <select id="categoriaServico" class="form-select" onchange="filtrarServicos()" style="border-color: #2d5016;">
+                <option value="todos" selected>Todos os serviços</option>
+                <option value="decoracao">Decoração</option>
+                <option value="entretenimento">Entretenimento</option>
+                <option value="gastronomia">Gastronomia</option>
+                <option value="logistica">Logística</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Cards de Serviços -->
+    <div class="row g-4" id="servicos-container">
+        <!-- Os serviços serão carregados via JavaScript -->
+    </div>
+
+    <!-- CTA Section -->
+    <div class="text-center mt-5 p-4 rounded" style="background: linear-gradient(135deg, #2d5016 0%, #1a2f0d 100%); color: white;">
+        <h3 class="mb-3">🎅 Pronto para um Natal mágico?</h3>
+        <p class="mb-4" style="color: #f0f8e8;">Entre em contato conosco e solicite um orçamento personalizado</p>
+
+        <div class="d-flex flex-column flex-md-row justify-content-center align-items-center gap-4 mb-3">
+            <div class="d-flex align-items-center">
+                <span class="me-2" style="color: #ffd700;">📧</span>
+                <strong>natal@lifeevents.test</strong>
+            </div>
+
+            <div class="d-flex align-items-center">
+                <span class="me-2" style="color: #ffd700;">📱</span>
+                <strong>(11) 99999-0000</strong>
+            </div>
+        </div>
+
+        <div class="mt-2">
+            <small style="color: #c8e6c9;">
+                🎁 Presenteie sua família com o melhor Natal!
+            </small>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Dados dos serviços natalinos fictícios
+        const servicos = [
+            {
+                id: 1,
+                nome: "Decoração Natalina Completa",
+                categoria: "decoracao",
+                descricao: "Transformamos sua casa em um conto de fadas natalino com luzes, guirlandas e árvore decorada.",
+                preco: "A partir de R$ 3.500",
+                icone: "🎄",
+                destaque: true
+            },
+            {
+                id: 2,
+                nome: "Visita do Papai Noel",
+                categoria: "entretenimento",
+                descricao: "O bom velhinho em pessoa para fotos, distribuição de presentes e momentos mágicos com as crianças.",
+                preco: "A partir de R$ 800",
+                icone: "🎅",
+                destaque: true
+            },
+            {
+                id: 3,
+                nome: "Ceia Natalina Premium",
+                categoria: "gastronomia",
+                descricao: "Chef especializado prepara peru, tender, farofa e todas as delícias da ceia tradicional.",
+                preco: "A partir de R$ 150/pessoa",
+                icone: "🍗",
+                destaque: true
+            },
+            {
+                id: 4,
+                nome: "Show de Luzes Natalinas",
+                categoria: "decoracao",
+                descricao: "Instalação profissional de iluminação sincronizada com músicas natalinas na fachada.",
+                preco: "Sob consulta",
+                icone: "✨",
+                destaque: false
+            },
+            {
+                id: 5,
+                nome: "Workshop de Biscoitos Natalinos",
+                categoria: "entretenimento",
+                descricao: "Atividade divertida para crianças e adultos decorarem biscoitos com tema natalino.",
+                preco: "A partir de R$ 1.200",
+                icone: "🍪",
+                destaque: false
+            },
+            {
+                id: 6,
+                nome: "Entrega de Presentes Personalizada",
+                categoria: "logistica",
+                descricao: "Serviço completo de embalagem, organização e distribuição de presentes sob medida.",
+                preco: "A partir de R$ 2.000",
+                icone: "🎁",
+                destaque: false
+            },
+            {
+                id: 7,
+                nome: "Vila do Papai Noel Montada",
+                categoria: "decoracao",
+                descricao: "Estrutura completa com trenó, oficina de brinquedos e cenário fotográfico profissional.",
+                preco: "A partir de R$ 12.000",
+                icone: "🏠",
+                destaque: true
+            },
+            {
+                id: 8,
+                nome: "Coquetéis e Bebidas Temáticas",
+                categoria: "gastronomia",
+                descricao: "Drinks especiais como Gingerbread Martini, Hot Chocolate Premium e Poinsettia Cocktail.",
+                preco: "A partir de R$ 85/pessoa",
+                icone: "🍹",
+                destaque: false
+            },
+            {
+                id: 9,
+                nome: "Coral Natalino em Casa",
+                categoria: "entretenimento",
+                descricao: "Grupo coral profissional para apresentação de músicas natalinas tradicionais.",
+                preco: "A partir de R$ 1.500",
+                icone: "🎤",
+                destaque: false
+            },
+            {
+                id: 10,
+                nome: "Decoração de Mesa Festiva",
+                categoria: "decoracao",
+                descricao: "Arranjos com pinhas, velas vermelhas, toalhas temáticas e centros de mesa exclusivos.",
+                preco: "A partir de R$ 1.800",
+                icone: "🍽️",
+                destaque: false
+            }
+        ];
+
+        function carregarServicos(categoria = 'todos') {
+            const container = document.getElementById('servicos-container');
+            let servicosFiltrados = servicos;
+
+            if (categoria !== 'todos') {
+                servicosFiltrados = servicos.filter(servico => servico.categoria === categoria);
+            }
+
+            let html = '';
+            servicosFiltrados.forEach(servico => {
+                const destaqueClass = servico.destaque ? 'border-warning border-3' : '';
+                const cardStyle = servico.destaque ?
+                    'background: linear-gradient(135deg, #fff9e6 0%, #ffffff 100%);' :
+                    'background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);';
+
+                html += `
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card h-100 shadow-sm ${destaqueClass}" style="${cardStyle}">
+                            <div class="card-body d-flex flex-column">
+                                <div class="text-center mb-3" style="font-size: 2.5rem;">
+                                    ${servico.icone}
+                                </div>
+                                <span class="badge mb-2 align-self-start" style="background-color: #c41e3a; color: white;">${servico.categoria}</span>
+                                <h5 class="card-title" style="color: #2d5016;">${servico.nome}</h5>
+                                <p class="card-text flex-grow-1" style="color: #555;">${servico.descricao}</p>
+                                <div class="mt-auto">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <span class="fw-bold" style="color: #c41e3a;">${servico.preco}</span>
+                                        <button class="btn btn-sm" onclick="detalhesServico(${servico.id})" style="background-color: #2d5016; color: white;">
+                                            Detalhes
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        function filtrarServicos() {
+            const categoria = document.getElementById('categoriaServico').value;
+            carregarServicos(categoria);
+        }
+
+        function detalhesServico(id) {
+            const servico = servicos.find(s => s.id === id);
+            if (servico) {
+                alert(`🎄 ${servico.nome}\n\n📝 ${servico.descricao}\n\n💰 ${servico.preco}\n\n🎅 Categoria: ${servico.categoria}`);
+            }
+        }
+
+        // Carregar serviços quando a página carregar
+        document.addEventListener('DOMContentLoaded', function() {
+            carregarServicos();
+        });
+    </script>
+}
+
+<style>
+    .card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border: none;
+        border-radius: 15px;
+    }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(196, 30, 58, 0.2);
+        }
+
+    .badge {
+        font-size: 0.7em;
+        text-transform: capitalize;
+        border-radius: 10px;
+        padding: 5px 10px;
+    }
+
+    body {
+        background: linear-gradient(135deg, #f8f9fa 0%, #e8f5e8 100%);
+    }
+
+    .form-select:focus {
+        border-color: #2d5016;
+        box-shadow: 0 0 0 0.2rem rgba(45, 80, 22, 0.25);
+    }
+
+    .btn:hover {
+        transform: scale(1.05);
+        transition: all 0.3s ease;
+    }
+
+    .border-warning {
+        border-color: #ffd700 !important;
+    }
+</style>

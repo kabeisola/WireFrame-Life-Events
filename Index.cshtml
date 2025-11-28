@@ -1,0 +1,179 @@
+﻿@{
+    ViewData["Title"] = "LifeEvents - Seu Portal de Eventos";
+}
+
+<div class="container-fluid p-0">
+    <!-- Hero Section Natalina -->
+    <section class="hero-section bg-dark text-white text-center py-5" style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-4.0.3') center/cover;">
+        <div class="container py-5">
+            <div class="mb-4" style="font-size: 4rem;">🎄</div>
+            <h1 class="display-4 fw-bold mb-4">Feliz Natal com LifeEvents</h1>
+            <p class="lead mb-4">Eventos mágicos para celebrar a época mais especial do ano</p>
+            <a href="/Home/Exercicio1" class="btn btn-lg px-4" style="background-color: #c41e3a; color: white; border: none;">Explorar Eventos Natalinos</a>
+        </div>
+    </section>
+
+    <!-- Eventos em Destaque Natalinos -->
+    <section id="eventos" class="py-5" style="background: linear-gradient(135deg, #f8f9fa 0%, #e8f5e8 100%);">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold" style="color: #c41e3a;">🎅 Eventos Natalinos em Destaque</h2>
+                <p class="text-muted">Celebre o espírito natalino com experiências mágicas</p>
+            </div>
+
+            <div class="row g-4">
+                <!-- Workshop -->
+                <div class="col-md-4">
+                    <div class="card h-100 shadow-sm" style="border-radius: 15px;">
+                        <img src="https://images.unsplash.com/photo-1512389142860-9c449e58a543?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" class="card-img-top" alt="Workshop Natalino" style="height: 200px; object-fit: cover; border-radius: 15px 15px 0 0;">
+                        <div class="card-body d-flex flex-column">
+                            <span class="badge mb-2 align-self-start" style="background-color: #c41e3a; color: white;">Workshop</span>
+                            <h5 class="card-title" style="color: #2d5016;">Oficina de Decoração Natalina</h5>
+                            <p class="card-text flex-grow-1">Aprenda a criar enfeites, guirlandas e decorações natalinas com especialistas em design.</p>
+                            <div class="mt-auto">
+                                <small class="text-muted d-block">📍 Centro Cultural</small>
+                                <small class="text-muted d-block">📅 07-14 Dezembro 2025</small>
+                                <div class="d-flex justify-content-between align-items-center mt-3">
+                                    <span class="fw-bold" style="color: #c41e3a;">R$ 89,00</span>
+                                    <a href="#" class="btn btn-sm" style="background-color: #2d5016; color: white;">Saiba Mais</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mercado Natalino -->
+                <div class="col-md-4">
+                    <div class="card h-100 shadow-sm" style="border-radius: 15px;">
+                        <img src="https://images.unsplash.com/photo-1641976689712-8a6d1c91a474?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8Z2VybWFuJTIwY2hyaXN0bWFzJTIwbWFya2V0fGVufDB8fDB8fHwy"
+                             class="card-img-top"
+                             alt="Mercado de Natal"
+                             style="height: 200px; object-fit: cover; border-radius: 15px 15px 0 0;">
+                        <div class="card-body d-flex flex-column">
+                            <span class="badge mb-2 align-self-start" style="background-color: #c41e3a; color: white;">Mercado Natalino</span>
+                            <h5 class="card-title" style="color: #2d5016;">Vila Natalina Encantada</h5>
+                            <p class="card-text flex-grow-1">Mercado temático com artesanato, comidas típicas e decoração natalina tradicional europeia.</p>
+                            <div class="mt-auto">
+                                <small class="text-muted d-block">📍 Parque da Cidade</small>
+                                <small class="text-muted d-block">📅 01-24 Dezembro 2025</small>
+                                <div class="d-flex justify-content-between align-items-center mt-3">
+                                    <span class="fw-bold" style="color: #c41e3a;">Entrada Gratuita</span>
+                                    <a href="#" class="btn btn-sm" style="background-color: #2d5016; color: white;">Saiba Mais</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Concerto -->
+                <div class="col-md-4">
+                    <div class="card h-100 shadow-sm" style="border-radius: 15px;">
+                        <img src="https://images.unsplash.com/photo-1572726729207-a78d6feb18d7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" class="card-img-top" alt="Show Natalino" style="height: 200px; object-fit: cover; border-radius: 15px 15px 0 0;">
+                        <div class="card-body d-flex flex-column">
+                            <span class="badge mb-2 align-self-start" style="background-color: #2d5016; color: white;">Música</span>
+                            <h5 class="card-title" style="color: #2d5016;">Concerto de Natal Sinfônico</h5>
+                            <p class="card-text flex-grow-1">Orquestra sinfônica executando os clássicos natalinos em uma noite mágica de celebração.</p>
+                            <div class="mt-auto">
+                                <small class="text-muted d-block">📍 Theatro Municipal</small>
+                                <small class="text-muted d-block">📅 15-23 Dezembro 2025</small>
+                                <div class="d-flex justify-content-between align-items-center mt-3">
+                                    <span class="fw-bold" style="color: #c41e3a;">R$ 120,00</span>
+                                    <a href="#" class="btn btn-sm" style="background-color: #2d5016; color: white;">Saiba Mais</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Natalina -->
+    <section class="py-5" style="background: linear-gradient(135deg, #2d5016 0%, #1a2f0d 100%);">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6 text-center text-white">
+                    <div class="mb-3" style="font-size: 3rem;">🎁</div>
+                    <h3 class="mb-3">Receba a Magia do Natal!</h3>
+                    <p class="mb-4" style="color: #f0f8e8;">Cadastre-se para receber nossas novidades e promoções especiais de Natal</p>
+                    <div class="input-group">
+                        <input type="email" class="form-control" placeholder="Seu melhor e-mail" style="border-radius: 10px 0 0 10px; border: none;">
+                        <button class="btn" type="button" style="background-color: #c41e3a; color: white; border: none; border-radius: 0 10px 10px 0;">Cadastrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção de Contato Natalino -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold" style="color: #c41e3a;">🎄 Serviços Natalinos Personalizados</h2>
+                <p class="text-muted">Faça seu Natal ainda mais especial com nossos serviços exclusivos</p>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="text-center p-4 rounded" style="background: linear-gradient(135deg, #2d5016 0%, #1a2f0d 100%); color: white;">
+                        <h3 class="mb-3">🎅 Pronto para um Natal mágico?</h3>
+                        <p class="mb-4" style="color: #f0f8e8;">Entre em contato conosco e solicite um orçamento personalizado</p>
+
+                        <div class="d-flex flex-column flex-md-row justify-content-center align-items-center gap-4 mb-3">
+                            <div class="d-flex align-items-center">
+                                <span class="me-2" style="color: #ffd700;">📧</span>
+                                <strong>natal@lifeevents.test</strong>
+                            </div>
+
+                            <div class="d-flex align-items-center">
+                                <span class="me-2" style="color: #ffd700;">📱</span>
+                                <strong>(11) 99999-0000</strong>
+                            </div>
+                        </div>
+
+                        <div class="mt-2">
+                            <small style="color: #c8e6c9;">
+                                🎁 Presenteie sua família com o melhor Natal!
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<style>
+    .hero-section {
+        min-height: 60vh;
+        display: flex;
+        align-items: center;
+    }
+
+    .card {
+        transition: transform 0.3s ease;
+        border: none;
+    }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(196, 30, 58, 0.2);
+        }
+
+    .badge {
+        font-size: 0.7em;
+        text-transform: capitalize;
+        border-radius: 10px;
+        padding: 5px 10px;
+    }
+
+    .btn:hover {
+        transform: scale(1.05);
+        transition: all 0.3s ease;
+    }
+
+    .input-group .form-control:focus {
+        border-color: #c41e3a;
+        box-shadow: 0 0 0 0.2rem rgba(196, 30, 58, 0.25);
+    }
+</style>

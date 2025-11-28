@@ -1,0 +1,237 @@
+﻿<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Consulta de Usuários - Life Events</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="text-primary">Consulta de Usuários</h2>
+            <a href="/Home/CadastroUsuario" class="btn btn-outline-primary">Novo Usuário</a>
+        </div>
+
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <form id="formConsulta" class="mb-4">
+                    <div class="row g-3 align-items-end">
+                        <div class="col-md-6">
+                            <label for="nomeAluno" class="form-label">Buscar Usuário</label>
+                            <input type="text" class="form-control" id="nomeAluno" placeholder="Digite o nome ou email do usuário" />
+                        </div>
+                        <div class="col-md-4">
+                            <label for="filtroInteresse" class="form-label">Filtrar por Interesse</label>
+                            <select class="form-select" id="filtroInteresse">
+                                <option value="">Todos os interesses</option>
+                                <option value="Musica">Eventos Musicais</option>
+                                <option value="Tecnologia">Eventos de Tecnologia</option>
+                                <option value="Negocios">Eventos Corporativos</option>
+                                <option value="Cultural">Eventos Culturais</option>
+                                <option value="Esportivo">Eventos Esportivos</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <button type="button" class="btn btn-primary w-100" onclick="buscar()">Buscar</button>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="table-responsive">
+                    <table class="table table-hover" id="tabelaResultado">
+                        <thead class="table-light">
+                            <tr>
+                                <th>ID</th>
+                                <th>Nome</th>
+                                <th>E-mail</th>
+                                <th>Interesses</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="corpo_tabela">
+                            <tr>
+                                <td colspan="5" class="text-center text-muted py-4">
+                                    Digite um nome para buscar usuários
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center mt-3">
+                    <small class="text-muted" id="contador-usuarios">0 usuários encontrados</small>
+                    <div>
+                        <button class="btn btn-sm btn-outline-secondary" onclick="exportarDados()">Exportar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Confirmação -->
+    <div class="modal fade" id="modalConfirmacao" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirmar Exclusão</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Tem certeza que deseja excluir o usuário <strong id="nomeUsuarioModal"></strong>?</p>
+                    <p class="text-danger"><small>Esta ação não pode ser desfeita.</small></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-danger" id="btnConfirmarExclusao">Excluir Usuário</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let usuarioParaExcluir = null;
+
+        async function buscar(){
+            var nome = document.getElementById("nomeAluno").value;
+            var url = "/Home/BuscarAluno?nome=" + encodeURIComponent(nome);
+
+            // Mostrar loading
+            document.getElementById("corpo_tabela").innerHTML = `
+                <tr>
+                    <td colspan="5" class="text-center py-4">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Carregando...</span>
+                        </div>
+                        <p class="mt-2 text-muted">Buscando usuários...</p>
+                    </td>
+                </tr>
+            `;
+
+            try {
+                var resp = await fetch(url);
+                var meujson = await resp.json();
+
+                var linhas_tabela = "";
+
+                if (meujson.length === 0) {
+                    linhas_tabela = `
+                        <tr>
+                            <td colspan="5" class="text-center text-muted py-4">
+                                Nenhum usuário encontrado
+                            </td>
+                        </tr>`;
+                } else {
+                    for (i = 0; i < meujson.length; i++){
+                        // Determinar a badge color baseada no interesse
+                        var badgeClass = "bg-secondary";
+                        var interesse = meujson[i]["curso"];
+
+                        switch(interesse) {
+                            case "Musica": badgeClass = "bg-success"; break;
+                            case "Tecnologia": badgeClass = "bg-primary"; break;
+                            case "Negocios": badgeClass = "bg-warning"; break;
+                            case "Cultural": badgeClass = "bg-info"; break;
+                            case "Esportivo": badgeClass = "bg-danger"; break;
+                        }
+
+                        linhas_tabela += `
+                             <tr>
+                                <td>${i + 1}</td>
+                                <td>${meujson[i]["nome"]}</td>
+                                <td>${meujson[i]["email"]}</td>
+                                <td><span class="badge ${badgeClass}">${meujson[i]["curso"]}</span></td>
+                                <td>
+                                    <div class="btn-group btn-group-sm">
+                                        <button class="btn btn-outline-primary" onclick="visualizarUsuario('${meujson[i]["nome"]}', '${meujson[i]["email"]}', '${meujson[i]["curso"]}')">
+                                            👁️
+                                        </button>
+                                        <button class="btn btn-outline-danger" onclick="confirmarExclusao('${meujson[i]["nome"]}', '${meujson[i]["email"]}')">
+                                            🗑️
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>`;
+                    }
+                }
+
+                document.getElementById("corpo_tabela").innerHTML = linhas_tabela;
+                document.getElementById("contador-usuarios").textContent = meujson.length + " usuário(s) encontrado(s)";
+
+            } catch (error) {
+                console.error("Erro na busca:", error);
+                document.getElementById("corpo_tabela").innerHTML = `
+                    <tr>
+                        <td colspan="5" class="text-center text-danger py-4">
+                            Erro ao buscar usuários. Tente novamente.
+                        </td>
+                    </tr>`;
+            }
+        }
+
+        function visualizarUsuario(nome, email, interesse) {
+            alert(`👤 Detalhes do Usuário:\n\nNome: ${nome}\nEmail: ${email}\nInteresse: ${interesse}`);
+        }
+
+        function confirmarExclusao(nome, email) {
+            usuarioParaExcluir = { nome: nome, email: email };
+            document.getElementById('nomeUsuarioModal').textContent = nome;
+
+            const modal = new bootstrap.Modal(document.getElementById('modalConfirmacao'));
+            modal.show();
+        }
+
+        async function excluirUsuario() {
+            if (!usuarioParaExcluir) return;
+
+            try {
+                const url = "/Home/ExcluirUsuario?email=" + encodeURIComponent(usuarioParaExcluir.email);
+                const res = await fetch(url, {
+                    method: "DELETE"
+                });
+
+                const resultado = await res.json();
+
+                if (resultado.includes("sucesso")) {
+                    // Fechar modal
+                    const modal = bootstrap.Modal.getInstance(document.getElementById('modalConfirmacao'));
+                    modal.hide();
+
+                    // Mostrar mensagem de sucesso
+                    alert("✅ Usuário excluído com sucesso!");
+
+                    // Recarregar a lista
+                    buscar();
+                } else {
+                    alert("❌ Erro ao excluir usuário: " + resultado);
+                }
+            } catch (error) {
+                console.error("Erro:", error);
+                alert("❌ Erro ao excluir usuário. Tente novamente.");
+            }
+        }
+
+        function exportarDados() {
+            alert("📊 Funcionalidade de exportação em desenvolvimento...");
+        }
+
+        // Configurar evento do botão de confirmação
+        document.getElementById('btnConfirmarExclusao').addEventListener('click', excluirUsuario);
+
+        // Buscar ao pressionar Enter
+        document.getElementById('nomeAluno').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                buscar();
+            }
+        });
+
+        // Buscar automaticamente quando a página carrega
+        document.addEventListener('DOMContentLoaded', function() {
+            // buscar(); // Descomente se quiser carregar todos os usuários automaticamente
+        });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

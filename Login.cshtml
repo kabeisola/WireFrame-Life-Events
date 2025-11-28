@@ -1,0 +1,458 @@
+﻿@{
+    ViewData["Title"] = "Life Events - Login";
+}
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@ViewData["Title"]</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        /* Variáveis CSS */
+        :root {
+            --primary-color: #6366f1;
+            --primary-dark: #4f46e5;
+            --gradient-start: #667eea;
+            --gradient-end: #764ba2;
+            --accent-color: #f59e0b;
+            --text-light: #f8fafc;
+            --shadow-soft: 0 8px 32px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 15px 45px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Reset e configurações gerais */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+            /* Efeito de background animado */
+            body::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%), radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.2) 0%, transparent 50%);
+            }
+
+        /* Container principal */
+        .login-container {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            max-width: 440px;
+            margin: 20px;
+        }
+
+        /* Card de login */
+        .login-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 24px;
+            padding: 3rem 2.5rem;
+            box-shadow: var(--shadow-soft);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .login-card::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 4px;
+                background: linear-gradient(90deg, var(--accent-color), var(--primary-color));
+            }
+
+            .login-card:hover {
+                transform: translateY(-8px);
+                box-shadow: var(--shadow-hover);
+            }
+
+        /* Cabeçalho da marca */
+        .brand-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            border-radius: 20px;
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
+        }
+
+        .logo-icon {
+            color: white;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .brand-title {
+            font-size: 2.2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .brand-subtitle {
+            color: #64748b;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        /* Formulário */
+        .form-group {
+            margin-bottom: 1.8rem;
+            position: relative;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.7rem;
+            font-weight: 600;
+            color: #374151;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 1rem 1.2rem 1rem 3rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 14px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: #ffffff;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+            .form-control:focus {
+                outline: none;
+                border-color: var(--primary-color);
+                box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+                transform: translateY(-2px);
+            }
+
+        .input-icon {
+            position: absolute;
+            left: 1.2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+            transition: all 0.3s ease;
+            z-index: 3;
+        }
+
+        .form-control:focus + .input-icon {
+            color: var(--primary-color);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        /* Botão de login */
+        .btn-login {
+            width: 100%;
+            padding: 1.1rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            border: none;
+            border-radius: 14px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+            .btn-login:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 10px 30px rgba(99, 102, 241, 0.6);
+            }
+
+            .btn-login:active {
+                transform: translateY(-1px);
+            }
+
+        /* Rodapé */
+        .login-footer {
+            text-align: center;
+            margin-top: 2.5rem;
+            padding-top: 2rem;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .footer-text {
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+
+        .footer-link {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+            .footer-link:hover {
+                color: var(--primary-dark);
+                text-decoration: underline;
+            }
+
+        /* Efeitos de partículas */
+        .floating-particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+
+        /* Estados de loading */
+        .btn-loading {
+            pointer-events: none;
+            opacity: 0.8;
+        }
+
+            .btn-loading::after {
+                content: '';
+                position: absolute;
+                width: 20px;
+                height: 20px;
+                top: 50%;
+                left: 50%;
+                margin: -10px 0 0 -10px;
+                border: 2px solid #ffffff;
+                border-radius: 50%;
+                border-top-color: transparent;
+                animation-name: spin;
+                animation-duration: 1s;
+                animation-iteration-count: infinite;
+                animation-timing-function: linear;
+            }
+
+        /* Animações */
+        @@keyframes float {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-20px) rotate(1deg);
+            }
+        }
+
+        @@keyframes float-particle {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            90% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        @@keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @@keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        /* Media queries - usando escape duplo */
+        @@media (max-width: 480px) {
+            .login-card {
+                margin: 1rem;
+                padding: 2.5rem 1.5rem;
+            }
+
+            .brand-title {
+                font-size: 1.8rem;
+            }
+
+            .logo {
+                width: 60px;
+                height: 60px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Particles -->
+    <div class="floating-particles" id="particles"></div>
+
+    <div class="login-container">
+        <div class="login-card">
+            <div class="brand-header">
+                <div class="logo">
+                    <span class="logo-icon">LE</span>
+                </div>
+                <h1 class="brand-title">Life Events</h1>
+                <p class="brand-subtitle">Entre na sua conta</p>
+            </div>
+
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="email" class="form-label">E-mail</label>
+                    <div class="input-wrapper">
+                        <input type="email" class="form-control" id="email" placeholder="seu@email.com" required />
+                        <div class="input-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                                <polyline points="22,6 12,13 2,6" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="senha" class="form-label">Senha</label>
+                    <div class="input-wrapper">
+                        <input type="password" class="form-control" id="senha" placeholder="Sua senha" required />
+                        <div class="input-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                                <circle cx="12" cy="16" r="1" />
+                                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-login" id="btnLogin">
+                    Entrar na Conta
+                </button>
+            </form>
+
+            <div class="login-footer">
+                <p class="footer-text">
+                    Não tem uma conta?
+                    <a href="/Home/CadastroUsuario" class="footer-link">Cadastre-se aqui</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Criar partículas flutuantes
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 15;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+
+                // Tamanho aleatório
+                const size = Math.random() * 8 + 4;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+
+                // Posição inicial aleatória
+                particle.style.left = `${Math.random() * 100}%`;
+
+                // Atraso e duração da animação
+                const delay = Math.random() * 20;
+                const duration = 15 + Math.random() * 10;
+
+                particle.style.animation = `float-particle ${duration}s linear ${delay}s infinite`;
+
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Aplicar animação de flutuação ao background
+        document.addEventListener('DOMContentLoaded', function() {
+            createParticles();
+
+            // Aplicar animação ao background
+            document.body.style.animation = 'float 6s ease-in-out infinite';
+
+            // Aplicar animação de pulso ao logo
+            document.querySelector('.logo').style.animation = 'pulse 2s infinite';
+        });
+
+        // Simular login com redirecionamento para Home
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const btn = document.getElementById('btnLogin');
+            const originalText = btn.textContent;
+
+            // Mostrar loading
+            btn.classList.add('btn-loading');
+            btn.textContent = '';
+
+            // Simular requisição e redirecionar para Home independente do resultado
+            setTimeout(() => {
+                btn.classList.remove('btn-loading');
+                btn.textContent = originalText;
+
+                // Redirecionar para a tela Home sempre
+                window.location.href = '/Home/Index';
+            }, 1500);
+        });
+    </script>
+</body>
+</html>
